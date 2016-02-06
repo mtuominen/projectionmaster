@@ -14,3 +14,6 @@ hs_err_pid*
 #IntelliJ files temporarily commented
 *.iml
 *.idea
+
+classes/*
+out/*
