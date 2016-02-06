@@ -1,0 +1,38 @@
+package mpt.auctionmaster.enums;
+
+public enum Team {
+	ARI,
+	ATL,
+	BAL,
+	BUF,
+	CAR,
+	CHI,
+	CIN,
+	CLE,
+	DAL,
+	DEN,
+	DET,
+	GB,
+	HOU,
+	IND,
+	JAX,
+	KC,
+	MIA,
+	MIN,
+	NE,
+	NO,
+	NYJ,
+	NYG,
+	OAK,
+	PHI,
+	PIT,
+	SD,
+	SEA,
+	SF,
+	STL,
+	TB,
+	TEN,
+	WAS,
+	FA
+	//TODO do this next
+}
