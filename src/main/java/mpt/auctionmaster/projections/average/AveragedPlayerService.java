@@ -7,35 +7,45 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Component;
+
 import mpt.auctionmaster.enums.PlayerIDGetterStrategies;
 import mpt.auctionmaster.enums.Position;
 import mpt.auctionmaster.players.Player;
 import mpt.auctionmaster.players.PlayerIDGetterStrategy;
 import mpt.auctionmaster.projections.ProjectionService;
 import mpt.auctionmaster.projections.ProjectionSource;
+import mpt.auctionmaster.projections.ProjectionSourceContext;
 import mpt.auctionmaster.projections.ProjectionWeightService;
 import mpt.auctionmaster.properties.ApplicationProperties;
 
 /**
  * Created by UTUOMMA on 8/23/2015.
  */
+@Component
 public class AveragedPlayerService {
 
-	private final ProjectionWeightService projectionWeightService;
-	private final ProjectionService projectionService = new ProjectionService();
-	private final ApplicationProperties applicationProperties;
-
-	public AveragedPlayerService(ApplicationProperties applicationProperties) {
-		projectionWeightService = new ProjectionWeightService(applicationProperties);
-		this.applicationProperties = applicationProperties;
-	}
+	@Autowired
+	private ProjectionWeightService projectionWeightService;
+	
+	@Autowired
+	private ProjectionService projectionService;
+	
+	@Autowired
+	private ProjectionSourceContext projectionSourceContext;
+	
+	@Autowired
+	private Environment env;
 
 	public List<Player> getAveragedPlayers(Position position) throws IOException, URISyntaxException {
 		final Map<ProjectionSource, BigDecimal> projectionWeights = projectionWeightService.getProjectionWeight(position);
 		final List<List<Player>> playerLists = new ArrayList<>();
 		final List<BigDecimal> weights = new ArrayList<>();
 		for (final ProjectionSource source : projectionWeights.keySet()) {
-			final List<Player> playerList = projectionService.getPlayerMap(source).get(position);
+			projectionSourceContext.setProjectionSource(source);
+			final List<Player> playerList = projectionService.getPlayerMap().get(position);
 			if (playerList != null) {
 				playerLists.add(playerList);
 			}
@@ -43,7 +53,7 @@ public class AveragedPlayerService {
 			weights.add(projectionWeights.get(source));
 		}
 
-		final PlayerIDGetterStrategy strategy = PlayerIDGetterStrategies.valueOf(applicationProperties.getProperty(position.name() + "-idStrategy")).getStrategy();
+		final PlayerIDGetterStrategy strategy = PlayerIDGetterStrategies.valueOf(env.getProperty(position.name() + "-idStrategy")).getStrategy();
 		
 		if (playerLists.size() == 1) {
 			return playerLists.get(0);
@@ -58,4 +68,14 @@ public class AveragedPlayerService {
 		);
 
 	}
+
+	public void setProjectionWeightService(ProjectionWeightService projectionWeightService) {
+		this.projectionWeightService = projectionWeightService;
+	}
+
+	public void setProjectionService(ProjectionService projectionService) {
+		this.projectionService = projectionService;
+	}
+	
+	
 }

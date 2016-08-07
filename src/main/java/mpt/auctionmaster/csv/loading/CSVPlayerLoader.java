@@ -14,6 +14,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import mpt.auctionmaster.PlayerLoader;
 import mpt.auctionmaster.enums.Position;
 import mpt.auctionmaster.enums.Statistic;
@@ -23,20 +26,21 @@ import mpt.auctionmaster.players.stats.build.PlayerBuilderAccessor;
 import mpt.auctionmaster.players.stats.build.StatisticEnumToStringStatisticSetterFactory;
 import mpt.auctionmaster.players.stats.build.StringStatisticSetter;
 import mpt.auctionmaster.players.stats.build.StringStatisticSetterFactory;
-import mpt.auctionmaster.properties.OverridableProjectionPropertyManager;
+import mpt.auctionmaster.projections.ProjectionSourceContext;
 import mpt.auctionmaster.properties.PropertyManager;
 import mpt.auctionmaster.util.StringUtil;
 
+@Component
 public class CSVPlayerLoader implements PlayerLoader {
 	
-	private PropertyManager propertyManager;
+	@Autowired
+	private ProjectionSourceContext projectionSourceContext;
 
-	public CSVPlayerLoader(PropertyManager propertyManager) {
-		this.propertyManager = propertyManager;
-	}
+	private PropertyManager propertyManager;
 	
 	@Override
 	public Map<Position, List<Player>> loadPlayers() throws IOException, URISyntaxException {
+		propertyManager = projectionSourceContext.getProjectionSource().getPropertyManager();
 		Map<Position, List<Player>> returnValue = new HashMap<Position, List<Player>>();
 		
 		final String folder = propertyManager.getProjectionsDirectory();
@@ -144,7 +148,7 @@ public class CSVPlayerLoader implements PlayerLoader {
 		return builder.build();
 	}
 
-	public static void main(String[] args) throws Exception {
+	/*public static void main(String[] args) throws Exception {
 		System.out.println("Working Directory = " +
 		              System.getProperty("user.dir"));
 
@@ -160,6 +164,6 @@ public class CSVPlayerLoader implements PlayerLoader {
 		//TODO Both are parsing, now lets combine them
 		System.out.println(positionToPlayersMap.get(Position.PLACEKICKER).size());
 		System.out.println(positionToPlayersMap.get(Position.TEAMDEFENSE).size());
-	}
+	}*/
 
 }

@@ -3,21 +3,25 @@ package mpt.auctionmaster.projections;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import mpt.auctionmaster.csv.loading.CSVPlayerLoader;
 import mpt.auctionmaster.enums.Position;
 import mpt.auctionmaster.players.Player;
-import mpt.auctionmaster.properties.ApplicationProperties;
 
+@Component
 public class ProjectionService {
+	
+	@Autowired
+	private CSVPlayerLoader csvPlayerLoader;
 
-	public Map<Position, List<Player>> getPlayerMap(ProjectionSource projectionSource) throws IOException, URISyntaxException {
+	public Map<Position, List<Player>> getPlayerMap() throws IOException, URISyntaxException {
 			try {
-				final CSVPlayerLoader loader = new CSVPlayerLoader(projectionSource.getPropertyManager());
-				return loader.loadPlayers();
+				return csvPlayerLoader.loadPlayers();
 			} catch (IOException io) {
 				io.printStackTrace();
 				return new EnumMap<>(Position.class);

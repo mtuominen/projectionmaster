@@ -7,6 +7,10 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Component;
+
 import mpt.auctionmaster.enums.Position;
 import mpt.auctionmaster.enums.Statistic;
 import mpt.auctionmaster.players.Player;
@@ -17,13 +21,14 @@ import mpt.auctionmaster.properties.ApplicationProperties;
 /**
  * Created by UTUOMMA on 8/23/2015.
  */
+@Component
 public class CSVPlayerSaver {
-
-	private final ApplicationProperties properties;
-
-	public CSVPlayerSaver(ApplicationProperties properties) {
-		this.properties = properties;
-	}
+	
+	@Autowired
+	private Environment env;
+	
+	@Autowired
+	private StatisticEnumToStringStatisticGetter statisticEnumToStringStatisticGetter;
 
 	public void save(Position position, List<Player> playerList) throws IOException, URISyntaxException {
 		final List<Statistic> statisticList = getHeaderOrder(position);
@@ -41,7 +46,7 @@ public class CSVPlayerSaver {
 	}
 
 	private List<Statistic> getHeaderOrder(Position position) throws IOException, URISyntaxException {
-		final String fields = properties.getProperty(position.name() + "-csvFields");
+		final String fields = env.getProperty(position.name() + "-csvFields");
 		final String[] headerFields = fields.split(",");
 		final List<Statistic> statisticList = new ArrayList<>();
 		for (final String headerField : headerFields) {
@@ -64,8 +69,7 @@ public class CSVPlayerSaver {
 		writer.append("\n");
 	}
 
-	private static void writePlayers(Writer writer, List<Player> playerList, List<Statistic> statisticList) throws IOException {
-		final StatisticEnumToStringStatisticGetter statisticEnumToStringStatisticGetter = new StatisticEnumToStringStatisticGetter();
+	private void writePlayers(Writer writer, List<Player> playerList, List<Statistic> statisticList) throws IOException {
 		final List<StringStatisticGetter> getterList = new ArrayList<>();
 		for (final Statistic statistic : statisticList) {
 			getterList.add(statisticEnumToStringStatisticGetter.getGetter(statistic));

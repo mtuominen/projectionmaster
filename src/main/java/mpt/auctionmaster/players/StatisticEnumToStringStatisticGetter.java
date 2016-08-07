@@ -4,11 +4,14 @@ import java.math.RoundingMode;
 import java.util.EnumMap;
 import java.util.Map;
 
+import org.springframework.stereotype.Component;
+
 import mpt.auctionmaster.enums.Statistic;
 
 /**
  * Created by UTUOMMA on 8/24/2015.
  */
+@Component
 public class StatisticEnumToStringStatisticGetter {
 	
 	private final Map<Statistic, StringStatisticGetter> statisticToStatisticGetter = new EnumMap<>(Statistic.class);
