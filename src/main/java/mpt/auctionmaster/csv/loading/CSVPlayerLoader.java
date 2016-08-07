@@ -3,6 +3,7 @@ package mpt.auctionmaster.csv.loading;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -45,7 +46,11 @@ public class CSVPlayerLoader implements PlayerLoader {
 		
 		final String folder = propertyManager.getProjectionsDirectory();
 		System.out.println("CSVPlayerLoader.loadPlayers - Projections Folder: " + folder);
-		final String[] files = new File(folder).list();
+		final String[] files = new File(folder).list(new FilenameFilter() {
+			@Override public boolean accept(File dir, String name) {
+				return !name.startsWith(".");
+			}
+		});
 		for (String currentFile : files) {
 			System.out.println("CSVPlayerLoader.loadPlayers - Projections file: " + currentFile);
 			InputStream inputStream = null;
