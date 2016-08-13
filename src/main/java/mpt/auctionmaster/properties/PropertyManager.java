@@ -33,4 +33,8 @@ public interface PropertyManager {
 	Map<String, Position> getPositionProperties() throws IOException, URISyntaxException;
 	
 	List<Statistic> getUnlabeledStatisticOrder() throws IOException, URISyntaxException;
+
+	ProjectionFormat getProjectionFormat();
+
+	int getProjectorId();
 }

@@ -88,7 +88,7 @@ public class CSVPlayerLoader implements PlayerLoader {
 			final String line = reader.readLine();
 			
 			final StringTokenizer tokenizer = new StringTokenizer(line, ",");
-			System.out.println("CSVPlayerLoader.parseHeader - Header Token Count: " + tokenizer.countTokens());
+			//System.out.println("CSVPlayerLoader.parseHeader - Header Token Count: " + tokenizer.countTokens());
 			int j = 0;
 			while (tokenizer.hasMoreTokens()) {
 				if (j == headers.size()) {
@@ -110,14 +110,14 @@ public class CSVPlayerLoader implements PlayerLoader {
 		final StatisticEnumToStringStatisticSetterFactory factoryBuilder = new StatisticEnumToStringStatisticSetterFactory(propertyManager);
 		for (StringBuilder currentColumn : headers) {
 			final String columnName = currentColumn.toString().trim();
-			System.out.println("CSVPlayerLoader.parseHeader - Column Name: " + columnName);
+			//System.out.println("CSVPlayerLoader.parseHeader - Column Name: " + columnName);
 			final Statistic columnStatistic; 
 			if ("".equals(columnName)) {
 				columnStatistic = unlabeledOrder.next();
 			} else {
 				columnStatistic = statisticProperties.get(columnName);
 			}
-			System.out.println("CSVPlayerLoader.parseHeader - Statistic: " + columnStatistic.name());
+			//System.out.println("CSVPlayerLoader.parseHeader - Statistic: " + columnStatistic.name());
 			final StringStatisticSetterFactory factory = factoryBuilder.getFactory(columnStatistic);
 			factoryList.add(factory);
 		}

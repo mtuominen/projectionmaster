@@ -19,7 +19,6 @@ import mpt.auctionmaster.projections.ProjectionService;
 import mpt.auctionmaster.projections.ProjectionSource;
 import mpt.auctionmaster.projections.ProjectionSourceContext;
 import mpt.auctionmaster.projections.ProjectionWeightService;
-import mpt.auctionmaster.properties.ApplicationProperties;
 
 /**
  * Created by UTUOMMA on 8/23/2015.

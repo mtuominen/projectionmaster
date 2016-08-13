@@ -41,9 +41,12 @@ public class DefaultPropertyManager implements PropertyManager {
 	private static final String STATISTIC_ORDER = "UnlabeledStatisticOrder.properties";
 	
 	private final String dir;
+
+	private final ProjectionFormat projectionFormat;
 	
-	public DefaultPropertyManager(String dir) {
+	public DefaultPropertyManager(String dir, ProjectionFormat projectionFormat) {
 		this.dir = dir;
+		this.projectionFormat = projectionFormat;
 	}
 	
 	@Override
@@ -127,7 +130,12 @@ public class DefaultPropertyManager implements PropertyManager {
 	protected String getDir() {
 		return dir;
 	}
-	
-	
 
+	public ProjectionFormat getProjectionFormat() {
+		return projectionFormat;
+	}
+
+	public int getProjectorId() {
+		return -1;
+	}
 }

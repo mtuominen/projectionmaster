@@ -11,7 +11,6 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import mpt.auctionmaster.enums.Position;
-import mpt.auctionmaster.properties.ApplicationProperties;
 
 /**
  * Created by UTUOMMA on 8/21/2015.

@@ -16,7 +16,6 @@ import mpt.auctionmaster.enums.Statistic;
 import mpt.auctionmaster.players.Player;
 import mpt.auctionmaster.players.StatisticEnumToStringStatisticGetter;
 import mpt.auctionmaster.players.StringStatisticGetter;
-import mpt.auctionmaster.properties.ApplicationProperties;
 
 /**
  * Created by UTUOMMA on 8/23/2015.
